@@ -47,13 +47,19 @@ class Search {
         this.resultsDiv.html('');
         this.isSpinnerVisible = false;
       }
-
     }
   }
 
   getResults() {
-    this.resultsDiv.html("imagine real search results here");
-    this.isSpinnerVisible = false;
+    $.getJSON(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+        this.resultsDiv.html(`
+          <h2 class="search-overlay__section-title">General Information</h2>
+            ${posts.length ? '<ul class="link-list min-list">': '<p>No Results</p>'}
+              ${posts.map(item => `<li><a href="${item.link}">${item.title.rendered}</li>`).join('')}
+            ${posts.length ? '</ul>': ''}
+        `);
+        this.isSpinnerVisible = false;
+    });
   }
 
   keyPressDispatcher(e) {
