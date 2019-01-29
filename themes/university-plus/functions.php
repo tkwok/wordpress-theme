@@ -1,4 +1,9 @@
 <?php
+add_action('rest_api_init', function() {
+  register_rest_field('post', 'author_name', array(
+    'get_callback' => function() { return get_the_author(); }
+  ));
+});
 
 function pageBanner($args = NULL) {
   // php logic will live here
